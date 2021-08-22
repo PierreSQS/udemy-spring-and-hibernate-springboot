@@ -1,6 +1,7 @@
 package com.luv2code.springboot.chadderbycruddemo.dao;
 
 import com.luv2code.springboot.chadderbycruddemo.entities.Employee;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Repository
+@Primary
 public class EmployeeDAOJPAImpl implements EmployeeDAO{
     private final EntityManager entityManager;
 
