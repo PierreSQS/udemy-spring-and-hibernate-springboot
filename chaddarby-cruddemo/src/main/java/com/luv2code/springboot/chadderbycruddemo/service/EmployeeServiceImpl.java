@@ -3,9 +3,9 @@ package com.luv2code.springboot.chadderbycruddemo.service;
 import com.luv2code.springboot.chadderbycruddemo.dao.EmployeeDAO;
 import com.luv2code.springboot.chadderbycruddemo.entities.Employee;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -16,31 +16,30 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    @Transactional
     public List<Employee> getAllEmployees() {
-        return employeeDAO.findAllEmployees();
+        return employeeDAO.findAll();
     }
 
     @Override
-    @Transactional
     public Employee findEmployeeByID(Integer empID) {
-        Employee foundEmpByID = employeeDAO.findEmployeeByID(empID);
-        if (foundEmpByID != null) {
-            return foundEmpByID;
-        } else {
-            throw new RuntimeException("Employee with ID="+empID+" not found!!");
-        }
+        Optional<Employee> empByIDOpt = employeeDAO.findById(empID);
+
+        return empByIDOpt.orElseThrow(() ->
+                new RuntimeException("Employee with ID="+empID+" not found!!")
+        );
     }
 
     @Override
-    @Transactional
-    public void saveEmployee(Employee employee) {
-        employeeDAO.saveEmployee(employee);
+    public Employee saveEmployee(Employee employee) {
+        return employeeDAO.save(employee);
     }
 
     @Override
-    @Transactional
     public void deleteEmployeeByID(Integer empID) {
-        employeeDAO.deleteEmployeeByID(empID);
+        // find Employee by ID
+        var foundEmployee = employeeDAO.findById(empID).orElseThrow(
+                () -> new RuntimeException("Employee with ID=" + empID + " not found!!")
+        );
+        employeeDAO.deleteById(foundEmployee.getId());
     }
 }
