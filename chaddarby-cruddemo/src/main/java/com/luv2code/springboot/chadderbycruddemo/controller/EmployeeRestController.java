@@ -29,7 +29,31 @@ public class EmployeeRestController {
 
     @PostMapping("employees")
     public Employee createEmployee(@RequestBody Employee employee) {
-        employeeService.createEmployee(employee);
+        employeeService.saveEmployee(employee);
         return employee;
+    }
+
+    @PutMapping("employees")
+    public Employee updateEmployee(@RequestBody Employee employee) {
+        // find employee
+        Employee foundEmpInDB = employeeService.findEmployeeByID(employee.getId());
+
+        // update only if employee exists!!
+        if (foundEmpInDB != null) {
+            employeeService.saveEmployee(employee);
+        }
+
+        return employee;
+    }
+
+    @DeleteMapping("employees/{empID}")
+    public void deleteEmployeeByID(@PathVariable Integer empID) {
+        // find employee
+        Employee foundEmpInDB = employeeService.findEmployeeByID(empID);
+
+        // delete only if employee exists!!
+        if (foundEmpInDB != null) {
+            employeeService.deleteEmployeeByID(empID);
+        }
     }
 }
