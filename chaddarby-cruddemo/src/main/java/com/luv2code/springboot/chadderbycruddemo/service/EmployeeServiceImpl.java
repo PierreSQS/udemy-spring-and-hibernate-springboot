@@ -24,8 +24,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public Employee findEmployeeByID(Integer empID) {
-        return employeeDAO.findEmployeeByID(empID)
-                .orElseThrow(() -> new RuntimeException("Employee with ID="+empID+" not found!"));
+        Employee foundEmpByID = employeeDAO.findEmployeeByID(empID);
+        if (foundEmpByID != null) {
+            return foundEmpByID;
+        } else {
+            throw new RuntimeException("Employee with ID="+empID+" not found!!");
+        }
     }
 
     @Override

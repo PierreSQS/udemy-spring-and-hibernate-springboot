@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class EmployeeDAOHibernateImpl implements EmployeeDAO{
@@ -30,14 +29,13 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO{
     }
 
     @Override
-    public Optional<Employee> findEmployeeByID(Integer empID) {
+    public Employee findEmployeeByID(Integer empID) {
         // get the current hibernate session
         Session currentSession = entityManager.unwrap(Session.class);
 
         // find the Employee by ID and return it.
-        Employee foundEmpInDB = currentSession.find(Employee.class, empID);
+        return currentSession.find(Employee.class, empID);
 
-        return Optional.of(foundEmpInDB);
     }
 
     @Override
