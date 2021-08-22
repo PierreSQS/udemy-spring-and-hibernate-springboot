@@ -20,4 +20,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> getAllEmployees() {
         return employeeDAO.findAllEmployees();
     }
+
+    @Override
+    @Transactional
+    public Employee findEmployeeByID(Integer empID) {
+        return employeeDAO.findEmployeeByID(empID)
+                .orElseThrow(() -> new RuntimeException("Employee with ID="+empID+" not found!"));
+    }
+
+    @Override
+    @Transactional
+    public void createEmployee(Employee employee) {
+        employeeDAO.saveEmployee(employee);
+    }
+
+    @Override
+    @Transactional
+    public void deleteEmployeeByID(Integer empID) {
+        employeeDAO.deleteEmployeeByID(empID);
+    }
 }
