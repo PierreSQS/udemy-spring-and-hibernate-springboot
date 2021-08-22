@@ -2,9 +2,7 @@ package com.luv2code.springboot.chadderbycruddemo.controller;
 
 import com.luv2code.springboot.chadderbycruddemo.entities.Employee;
 import com.luv2code.springboot.chadderbycruddemo.service.EmployeeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +20,16 @@ public class EmployeeRestController {
     @GetMapping("employees")
     public List<Employee> getEmployeees() {
         return employeeService.getAllEmployees();
+    }
+
+    @GetMapping("employees/{empID}")
+    public Employee getEmployee(@PathVariable Integer empID) {
+        return employeeService.findEmployeeByID(empID);
+    }
+
+    @PostMapping("employees")
+    public Employee createEmployee(@RequestBody Employee employee) {
+        employeeService.createEmployee(employee);
+        return employee;
     }
 }
